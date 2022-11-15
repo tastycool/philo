@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 11:09:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/14 09:59:46 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/15 11:27:26 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@ int	parsing(int ac, char **av, t_rules *rules)
 {
 	if (ac == 6 || ac == 5)
 	{
+		check_alpha(ac, av, rules);
+		if (rules->error == 1)
+			return (1);
 		rules->nb_philo = ft_atolong(av[1]);
 		rules->time_to_die = ft_atolong(av[2]);
 		rules->time_to_eat = ft_atolong(av[3]);
 		rules->time_to_sleep = ft_atolong(av[4]);
 		if (ac == 6)
 			rules->time_must_eat = ft_atolong(av[5]);
+		else
+			rules->time_must_eat = INT_MAX;
 		check_error(rules);
 	}
 	else
@@ -59,6 +64,7 @@ long	ft_atolong(const char *str)
 
 int	check_error(t_rules *rules)
 {
+	rules->philo_tab->is_dead = 0;
 	if (rules->nb_philo > 200)
 	{
 		rules->error = 1;
@@ -73,5 +79,43 @@ int	check_error(t_rules *rules)
 		rules->error = 1;
 		return (1);
 	}
+	return (0);
+}
+
+int	check_alpha(int ac, char **av, t_rules *rules)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < ac)
+	{
+		j = 0;
+		while (av[i][j] != '\0')
+		{
+			if (!ft_strchr(VALIDE_SYMBOL, av[i][j]))
+			{
+				rules->error = 1;
+				dprintf(2, "invalid symbole");
+				return (1);
+			}
+			else
+				j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s && *s != '\0')
+	{
+		if (*s == (char) c)
+			return ((char *) s);
+		s++;
+	}
+	if (*s == '\0' && c == '\0')
+		return ((char *) s);
 	return (0);
 }

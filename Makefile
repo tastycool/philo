@@ -6,7 +6,7 @@
 #    By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 09:52:10 by tberube-          #+#    #+#              #
-#    Updated: 2022/11/14 09:23:03 by tberube-         ###   ########.fr        #
+#    Updated: 2022/11/15 10:35:33 by tberube-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = gcc
 HEADER = philo2/
 
 NAME = philo2
-SRCS = parsing.c philo.c 
+SRCS = parsing.c philo.c init_philo.c get_time.c routine.c print_states.c
 # create_thread.c init_philo.c print_state.c
 
 OBJS = ${SRCS:.c=.o}
