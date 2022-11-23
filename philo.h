@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 10:54:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/15 14:14:49 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:32:17 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ typedef struct s_rules
 	int				nb_philo;
 	t_philo			philo_tab[200];
 	pthread_mutex_t	fork[200];
+	pthread_mutex_t	mort;
 	int				error;
+	int				dead;
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
@@ -84,5 +86,7 @@ int		ft_is_dead(t_philo *philo);
 void	wait_eat(t_philo *philo);
 void	wait_sleep(t_philo *philo);
 void	boucle_main(t_philo *philo, t_rules *rules);
+void	destroy_thread(t_rules *rules);
+void	create_thread(t_rules *rules);
 
 #endif
