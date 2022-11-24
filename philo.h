@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 10:54:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/23 11:32:17 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/24 09:31:23 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_philo
 	long				time_eat;
 	long				time_sleep;
 	long				time_think;
+	long				time_die;
 	struct s_rules		*rules;
 }						t_philo;
 
@@ -66,6 +67,7 @@ typedef struct s_rules
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			time_must_eat;
+	int				philo_full;
 	pthread_mutex_t	write;
 }					t_rules;
 
@@ -88,5 +90,6 @@ void	wait_sleep(t_philo *philo);
 void	boucle_main(t_philo *philo, t_rules *rules);
 void	destroy_thread(t_rules *rules);
 void	create_thread(t_rules *rules);
+void	wait_die(t_philo *philo);
 
 #endif

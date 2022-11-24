@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 13:33:30 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/23 11:10:51 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/24 09:30:37 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	wait_eat(t_philo *philo)
 		usleep(50);
 	}
 	//printf("time after eat = %lu\n", get_time() - philo->time_eat);
-	philo->time_eat = get_time();
+	//philo->time_eat = get_time();
 }
 
 void	wait_sleep(t_philo *philo)
@@ -48,6 +48,17 @@ void	wait_sleep(t_philo *philo)
 		usleep(50);
 	}
 	// printf("time after sleep = %lu\n", get_time() - philo->time_sleep);
-	philo->time_sleep = get_time();
+	//philo->time_sleep = get_time();
+}
+
+void	wait_die(t_philo *philo)
+{
+	philo->time_die = get_time();
+	while (1)
+	{
+		if ((get_time() - philo->time_die) >= philo->rules->time_to_die)
+			break ;
+		usleep(50);
+	}
 }
 

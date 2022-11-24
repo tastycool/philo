@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 11:09:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/15 11:27:26 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/24 09:22:20 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,19 @@ long	ft_atolong(const char *str)
 
 int	check_error(t_rules *rules)
 {
+	rules->philo_full = 0;
 	rules->philo_tab->is_dead = 0;
 	if (rules->nb_philo > 200)
 	{
 		rules->error = 1;
-		dprintf(2, "too many philo");
+		dprintf(2, "too many philo\n");
 		return (1);
 	}
 	if (rules->nb_philo <= 0 || rules->time_to_die <= 0 \
 	|| rules->time_to_eat <= 0 || rules->time_to_sleep <= 0 \
 	|| rules->time_must_eat <= 0)
 	{
-		dprintf(2, "args can't be 0 or negatives");
+		dprintf(2, "args can't be 0 or negatives\n");
 		rules->error = 1;
 		return (1);
 	}
@@ -96,7 +97,7 @@ int	check_alpha(int ac, char **av, t_rules *rules)
 			if (!ft_strchr(VALIDE_SYMBOL, av[i][j]))
 			{
 				rules->error = 1;
-				dprintf(2, "invalid symbole");
+				dprintf(2, "invalid symbole\n");
 				return (1);
 			}
 			else

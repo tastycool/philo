@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 09:52:37 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/23 13:30:37 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/24 09:30:55 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,21 @@ void	boucle_main(t_philo *philo, t_rules *rules)
 	philo = rules->philo_tab;
 	while (i <= rules->nb_philo)
 	{
+		if (rules->nb_philo == 1)
+		{
+			state_message(philo, MESSAGE_FORK);
+			wait_die(philo);
+			printf("%ld %03d %s", get_real_time(rules->time), philo->philo_id, "is dead\n");
+			return ;
+		}
 		if ((get_time() - philo->time_eat) > philo->rules->time_to_die && philo->time_eat != 0)
 		{
 			philo->rules->dead = 1;
 			printf("time last eat = %lu\n", get_time() - philo->time_eat);
 			// pthread_mutex_lock(&rules->mort);
-			// usleep(1);
+			//usleep(1);
 			//state_message(philo, MESSAGE_DEAD);
+			//pthread_mutex_lock(&philo->rules->write);
 			printf("%ld %03d %s", get_real_time(rules->time), philo->philo_id, "is dead\n");
 			return ;
 		}
@@ -37,7 +45,7 @@ void	boucle_main(t_philo *philo, t_rules *rules)
 		{
 			if ((j + 1) == rules->nb_philo)
 			{
-				pthread_mutex_lock(&philo->rules->write);
+				rules->philo_full = 1;
 				printf("all Philo is full\n");
 				return ;
 			}
@@ -91,6 +99,7 @@ int	main(int ac, char **av)
 	init_philo(&rules);
 	create_thread(&rules);
 	boucle_main(&philo, &rules);
+	pthread_mutex_unlock(&rules.write);
 	//destroy_thread(&rules);
 	return (0);
 }
