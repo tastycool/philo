@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 13:38:28 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/23 14:10:58 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/29 15:25:56 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	*routine_philo(void *philo_data)
 		return (0);
 	while (1)
 	{
+		pthread_mutex_lock(&philo->philo_dead);
 		eat(philo);
+		pthread_mutex_unlock(&philo->philo_dead);
 		think(philo);
 	}
 	return (0);
@@ -31,18 +33,20 @@ void	*routine_philo(void *philo_data)
 
 void	eat(t_philo *philo)
 {
+	//pthread_mutex_lock(&philo->philo_dead);
 	pthread_mutex_lock(&philo->rules->fork[philo->left_fork]);
 	if (philo->rules->dead == 0 && philo->rules->philo_full == 0)
 		state_message(philo, MESSAGE_FORK);
 	pthread_mutex_lock(&philo->rules->fork[philo->right_fork]);
 	if (philo->rules->dead == 0 && philo->rules->philo_full == 0)
-		state_message(philo, MESSAGE_FORK);
+		state_message(philo, MESSAGE_FORK);g
 	if (philo->rules->dead == 0 && philo->rules->philo_full == 0)
 		state_message(philo, MESSAGE_EAT);
 	wait_eat(philo);
 	philo->meals++;
 	pthread_mutex_unlock(&philo->rules->fork[philo->left_fork]);
 	pthread_mutex_unlock(&philo->rules->fork[philo->right_fork]);
+	//pthread_mutex_unlock(&philo->philo_dead);
 	ft_sleep(philo);
 }
 

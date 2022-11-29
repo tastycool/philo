@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 10:54:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/24 09:31:23 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/29 15:08:23 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,16 @@ struct	s_rules;
 typedef struct s_philo
 {
 	int					philo_id;
-	pthread_t			thread;
 	int					left_fork;
 	int					right_fork;
 	int					meals;
 	int					is_dead;
+	pthread_t			thread;
 	long				time_eat;
 	long				time_sleep;
 	long				time_think;
 	long				time_die;
+	pthread_mutex_t		philo_dead;
 	struct s_rules		*rules;
 }						t_philo;
 
@@ -58,10 +59,11 @@ typedef struct s_rules
 	long			time;
 	long			real_time;
 	int				nb_philo;
-	t_philo			philo_tab[200];
 	pthread_mutex_t	fork[200];
 	pthread_mutex_t	mort;
 	int				error;
+	int				i;
+	int				j;
 	int				dead;
 	long			time_to_die;
 	long			time_to_eat;
@@ -69,6 +71,7 @@ typedef struct s_rules
 	long			time_must_eat;
 	int				philo_full;
 	pthread_mutex_t	write;
+	t_philo			philo_tab[200];
 }					t_rules;
 
 int		check_error(t_rules *rules);
@@ -91,5 +94,9 @@ void	boucle_main(t_philo *philo, t_rules *rules);
 void	destroy_thread(t_rules *rules);
 void	create_thread(t_rules *rules);
 void	wait_die(t_philo *philo);
+void	one_philo(t_philo *philo, t_rules *rules);
+void	philo_died(t_philo *philo, t_rules *rules);
+void	incrementation(t_rules *rules);
+void	philo_full(t_rules *rules);
 
 #endif

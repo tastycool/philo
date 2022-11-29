@@ -6,16 +6,17 @@
 #    By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 09:52:10 by tberube-          #+#    #+#              #
-#    Updated: 2022/11/15 10:35:33 by tberube-         ###   ########.fr        #
+#    Updated: 2022/11/29 12:08:05 by tberube-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS = -Wall -Werror -Wextra -g
 CC = gcc
-HEADER = philo2/
+HEADER = philo/
 
-NAME = philo2
-SRCS = parsing.c philo.c init_philo.c get_time.c routine.c print_states.c
+NAME = philo
+SRCS = parsing.c philo.c init_philo.c get_time.c routine.c print_states.c \
+		Boucle_main_check.c
 # create_thread.c init_philo.c print_state.c
 
 OBJS = ${SRCS:.c=.o}

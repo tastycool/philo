@@ -6,55 +6,42 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 09:52:37 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/24 09:30:55 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/29 15:15:29 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 // 200 philo sa meure
-
 void	boucle_main(t_philo *philo, t_rules *rules)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
 	philo = rules->philo_tab;
-	while (i <= rules->nb_philo)
+	while (rules->i <= rules->nb_philo)
 	{
+		//pthread_mutex_lock(&rules->philo_tab->philo_dead);
+		// pthread_mutex_lock(&rules->write);
 		if (rules->nb_philo == 1)
 		{
-			state_message(philo, MESSAGE_FORK);
-			wait_die(philo);
-			printf("%ld %03d %s", get_real_time(rules->time), philo->philo_id, "is dead\n");
+			one_philo(philo, rules);
 			return ;
 		}
-		if ((get_time() - philo->time_eat) > philo->rules->time_to_die && philo->time_eat != 0)
+		if ((get_time() - philo->time_eat) > \
+		philo->rules->time_to_die && philo->time_eat != 0)
 		{
-			philo->rules->dead = 1;
-			printf("time last eat = %lu\n", get_time() - philo->time_eat);
-			// pthread_mutex_lock(&rules->mort);
-			//usleep(1);
-			//state_message(philo, MESSAGE_DEAD);
-			//pthread_mutex_lock(&philo->rules->write);
-			printf("%ld %03d %s", get_real_time(rules->time), philo->philo_id, "is dead\n");
+			philo_died(philo, rules);
 			return ;
 		}
-		while (rules->philo_tab[j].meals >= rules->time_must_eat)
+		while (rules->philo_tab[rules->j].meals >= rules->time_must_eat)
 		{
-			if ((j + 1) == rules->nb_philo)
+			if ((rules->j + 1) == rules->nb_philo)
 			{
-				rules->philo_full = 1;
-				printf("all Philo is full\n");
+				philo_full(rules);
 				return ;
 			}
-			j++;
+			rules->j++;
 		}
-		i++;
-		j = 0;
-		if (i == rules->nb_philo)
-			i = 0;
+		incrementation(rules);
+		//pthread_mutex_unlock(&rules->philo_tab->philo_dead);
+		// pthread_mutex_unlock(&rules->write);
 	}
 }
 
@@ -89,6 +76,8 @@ int	main(int ac, char **av)
 	t_philo	philo;
 	t_rules	rules;
 
+	rules.i = 0;
+	rules.j = 0;
 	parsing(ac, av, &rules);
 	if (pthread_mutex_init(&rules.write, NULL) != 0)
 		rules.error = 1;
