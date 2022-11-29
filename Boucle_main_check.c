@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 12:05:55 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/29 14:55:02 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:25:31 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	one_philo(t_philo *philo, t_rules *rules)
 
 void	philo_died(t_philo *philo, t_rules *rules)
 {
+	pthread_mutex_unlock(&philo->philo_dead);
 	philo->rules->dead = 1;
 	//pthread_mutex_lock(&rules->philo_tab->philo_dead);
 	//pthread_mutex_lock(&rules->write);
@@ -32,7 +33,7 @@ void	philo_died(t_philo *philo, t_rules *rules)
 
 void	philo_full(t_rules *rules)
 {
-	pthread_mutex_lock(&rules->write);
+	pthread_mutex_unlock(&rules->philo_tab->philo_dead);
 	rules->philo_full = 1;
 	usleep(500);
 	printf("all Philo is full\n");

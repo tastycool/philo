@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 13:38:28 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/29 15:25:56 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:17:25 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	eat(t_philo *philo)
 		state_message(philo, MESSAGE_FORK);
 	pthread_mutex_lock(&philo->rules->fork[philo->right_fork]);
 	if (philo->rules->dead == 0 && philo->rules->philo_full == 0)
-		state_message(philo, MESSAGE_FORK);g
+		state_message(philo, MESSAGE_FORK);
 	if (philo->rules->dead == 0 && philo->rules->philo_full == 0)
 		state_message(philo, MESSAGE_EAT);
 	wait_eat(philo);
