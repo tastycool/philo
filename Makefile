@@ -6,11 +6,11 @@
 #    By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 09:52:10 by tberube-          #+#    #+#              #
-#    Updated: 2022/11/29 12:08:05 by tberube-         ###   ########.fr        #
+#    Updated: 2022/12/07 11:36:27 by tberube-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=thread
 CC = gcc
 HEADER = philo/
 

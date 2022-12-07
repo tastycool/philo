@@ -6,56 +6,11 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 09:52:37 by tberube-          #+#    #+#             */
-/*   Updated: 2022/11/29 15:15:29 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:24:10 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-// 200 philo sa meure
-void	boucle_main(t_philo *philo, t_rules *rules)
-{
-	philo = rules->philo_tab;
-	while (rules->i <= rules->nb_philo)
-	{
-		//pthread_mutex_lock(&rules->philo_tab->philo_dead);
-		// pthread_mutex_lock(&rules->write);
-		if (rules->nb_philo == 1)
-		{
-			one_philo(philo, rules);
-			return ;
-		}
-		if ((get_time() - philo->time_eat) > \
-		philo->rules->time_to_die && philo->time_eat != 0)
-		{
-			philo_died(philo, rules);
-			return ;
-		}
-		while (rules->philo_tab[rules->j].meals >= rules->time_must_eat)
-		{
-			if ((rules->j + 1) == rules->nb_philo)
-			{
-				philo_full(rules);
-				return ;
-			}
-			rules->j++;
-		}
-		incrementation(rules);
-		//pthread_mutex_unlock(&rules->philo_tab->philo_dead);
-		// pthread_mutex_unlock(&rules->write);
-	}
-}
-
-void	destroy_thread(t_rules *rules)
-{
-	int	i;
-
-	i = 0;
-	while (i <= rules->nb_philo)
-	{
-		pthread_join(rules->philo_tab[i].thread, NULL);
-		i++;
-	}
-}
 
 void	create_thread(t_rules *rules)
 {
@@ -85,10 +40,13 @@ int	main(int ac, char **av)
 		return (1);
 	rules.time = get_time();
 	rules.real_time = get_real_time(rules.time);
+	pthread_mutex_init(&rules.stop_time, NULL);
+	pthread_mutex_init(&rules.stop_died, NULL);
+	pthread_mutex_init(&rules.stop_meal, NULL);
 	init_philo(&rules);
 	create_thread(&rules);
 	boucle_main(&philo, &rules);
-	pthread_mutex_unlock(&rules.write);
-	//destroy_thread(&rules);
+	if (destroy_thread(&rules) != 0)
+		return (1);
 	return (0);
 }
