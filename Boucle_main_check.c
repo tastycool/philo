@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 12:05:55 by tberube-          #+#    #+#             */
-/*   Updated: 2022/12/07 11:34:55 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:06:06 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,9 @@ void	boucle_main(t_philo *philo, t_rules *rules)
 			return ;
 		}
 		pthread_mutex_unlock(&rules->stop_time);
-		while (1)
-		{	
-			pthread_mutex_lock(&rules->stop_meal);
-			if (rules->philo_tab[rules->j].meals >= rules->time_must_eat)
-			{
-				pthread_mutex_unlock(&rules->stop_meal);
-				if ((rules->j + 1) == rules->nb_philo)
-				{
-					philo_full(rules, philo);
-					return ;
-				}
-				rules->j++;
-			}
-			else
-			{
-				pthread_mutex_unlock(&rules->stop_meal);
-				break ;
-			}
-		}
+		meals_for_each(philo, rules);
+		if (rules->philo_full == 1)
+			return ;
 		incrementation(rules);
 	}
 }

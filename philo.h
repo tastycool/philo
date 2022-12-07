@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 10:54:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/12/07 11:06:00 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:02:25 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ void	philo_died(t_philo *philo, t_rules *rules);
 void	incrementation(t_rules *rules);
 void	philo_full(t_rules *rules, t_philo *philo);
 int		destroy_thread(t_rules *rules);
+void	meals_for_each(t_philo *philo, t_rules *rules);
 
 #endif

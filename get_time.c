@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 13:33:30 by tberube-          #+#    #+#             */
-/*   Updated: 2022/12/07 11:20:02 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:08:10 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	wait_eat(t_philo *philo)
 
 void	wait_sleep(t_philo *philo)
 {
-	// pthread_mutex_lock(&philo->rules->stop_time);
 	philo->time_sleep = get_time();
 	while (1)
 	{
@@ -53,7 +52,6 @@ void	wait_sleep(t_philo *philo)
 			break ;
 		usleep(50);
 	}
-	// pthread_mutex_unlock(&philo->rules->stop_time);
 }
 
 void	wait_die(t_philo *philo)

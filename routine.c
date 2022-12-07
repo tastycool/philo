@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 13:38:28 by tberube-          #+#    #+#             */
-/*   Updated: 2022/12/07 11:27:54 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:09:05 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	*routine_philo(void *philo_data)
 		usleep(250);
 	if (philo->rules->nb_philo == 1)
 		return (0);
-	// while (philo->rules->dead == 0 && philo->rules->philo_full == 0)
-	while(1)
+	while (1)
 	{
 		pthread_mutex_lock(&philo->rules->stop_died);
 		if (philo->rules->dead == 1 || philo->rules->philo_full == 1)
@@ -79,4 +78,28 @@ void	think(t_philo *philo)
 	if (philo->rules->dead == 0 && philo->rules->philo_full == 0)
 		state_message(philo, MESSAGE_THINK);
 	pthread_mutex_unlock(&philo->rules->stop_died);
+}
+
+void	meals_for_each(t_philo *philo, t_rules *rules)
+{
+	while (1)
+	{	
+		pthread_mutex_lock(&rules->stop_meal);
+		if (rules->philo_tab[rules->j].meals >= rules->time_must_eat)
+		{
+			pthread_mutex_unlock(&rules->stop_meal);
+			if ((rules->j + 1) == rules->nb_philo)
+			{
+				philo_full(rules, philo);
+				return ;
+			}
+			rules->j++;
+		}
+		else
+		{
+			pthread_mutex_unlock(&rules->stop_meal);
+			break ;
+		}
+	}
+	return ;
 }
